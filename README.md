@@ -199,6 +199,14 @@ Merge the `hooks` key into your existing `settings.json`:
 
 Found a better sound command for your OS? Open a PR!
 
+---
+
+## Support
+
+If this saved you time, consider buying me a coffee:
+
+<a href="https://buymeacoffee.com/indiesaif" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="200" /></a>
+
 ## License
 
 [MIT](LICENSE) - Mohammed Saif Ali
