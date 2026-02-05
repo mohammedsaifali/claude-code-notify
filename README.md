@@ -1,30 +1,44 @@
-# claude-code-notify
+<div align="center">
 
-Get a sound notification whenever [Claude Code](https://docs.anthropic.com/en/docs/claude-code) needs your input. Never miss when Claude is waiting on you again.
+<img src="assets/banner.svg" alt="claude-code-notify" width="800" />
 
-Zero dependencies. Works on Windows, macOS, and Linux.
+<br />
+<br />
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)
+![Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen)
+![Setup](https://img.shields.io/badge/Setup-30%20seconds-orange)
+[![GitHub stars](https://img.shields.io/github/stars/mohammedsaifali/claude-code-notify?style=social)](https://github.com/mohammedsaifali/claude-code-notify)
+
+</div>
+
+---
 
 ## The Problem
 
-You're running Claude Code, tab away to do something else, and come back 10 minutes later only to realize it's been waiting for your input the whole time.
+You're running Claude Code, tab away to browse docs or grab coffee, and come back **10 minutes later** only to realize Claude's been sitting there waiting for you the whole time.
 
-## The Solution
+## The Fix
 
-A simple hook that plays a system sound every time Claude Code pauses and needs you.
+One hook. One line. Sound plays every time Claude needs you.
 
-## Setup
+```
+Claude working...  →  Claude pauses  →  🔔 *sound*  →  You respond
+```
 
-**1. Open your Claude Code settings file:**
+---
 
-| OS | Path |
-|----|------|
-| Windows | `%USERPROFILE%\.claude\settings.json` |
-| macOS | `~/.claude/settings.json` |
-| Linux | `~/.claude/settings.json` |
+## Quick Start
 
-**2. Add the hook for your OS:**
+**1.** Open `~/.claude/settings.json` (or `%USERPROFILE%\.claude\settings.json` on Windows)
 
-### Windows
+**2.** Add the hook for your OS:
+
+<details>
+<summary><b>🪟 Windows</b></summary>
+
+<br />
 
 ```json
 {
@@ -44,7 +58,22 @@ A simple hook that plays a system sound every time Claude Code pauses and needs 
 }
 ```
 
-### macOS
+**Other Windows sounds you can use:**
+
+| Sound | Code |
+|:------|:-----|
+| Exclamation *(default)* | `[System.Media.SystemSounds]::Exclamation.Play()` |
+| Asterisk | `[System.Media.SystemSounds]::Asterisk.Play()` |
+| Beep | `[System.Media.SystemSounds]::Beep.Play()` |
+| Hand | `[System.Media.SystemSounds]::Hand.Play()` |
+| Question | `[System.Media.SystemSounds]::Question.Play()` |
+
+</details>
+
+<details>
+<summary><b>🍎 macOS</b></summary>
+
+<br />
 
 ```json
 {
@@ -64,13 +93,25 @@ A simple hook that plays a system sound every time Claude Code pauses and needs 
 }
 ```
 
-Other macOS sound options:
-- `/System/Library/Sounds/Ping.aiff`
-- `/System/Library/Sounds/Pop.aiff`
-- `/System/Library/Sounds/Basso.aiff`
-- `/System/Library/Sounds/Hero.aiff`
+**Other macOS sounds you can use:**
 
-### Linux
+| Sound | Path |
+|:------|:-----|
+| Glass *(default)* | `/System/Library/Sounds/Glass.aiff` |
+| Ping | `/System/Library/Sounds/Ping.aiff` |
+| Pop | `/System/Library/Sounds/Pop.aiff` |
+| Basso | `/System/Library/Sounds/Basso.aiff` |
+| Hero | `/System/Library/Sounds/Hero.aiff` |
+| Purr | `/System/Library/Sounds/Purr.aiff` |
+
+</details>
+
+<details>
+<summary><b>🐧 Linux</b></summary>
+
+<br />
+
+**PulseAudio (most distros):**
 
 ```json
 {
@@ -90,26 +131,48 @@ Other macOS sound options:
 }
 ```
 
-Alternative using `aplay`:
+**ALSA alternative:**
+
 ```json
 "command": "aplay /usr/share/sounds/freedesktop/stereo/complete.oga"
 ```
 
-**3. Save the file.** That's it — no restart needed.
+</details>
+
+<br />
+
+**3.** Save the file. **Done.** No restart needed.
+
+---
 
 ## How It Works
 
-Claude Code has a built-in [hooks system](https://docs.anthropic.com/en/docs/claude-code/hooks) that lets you run commands in response to events. The `Notification` event fires whenever Claude pauses and waits for user input.
+```
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│   ~/.claude/settings.json                            │
+│                                                      │
+│   hooks.Notification  ──→  matcher: "" (catch-all)   │
+│                        ──→  plays system sound       │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
 
-- **`matcher: ""`** — matches all notifications (empty string = catch-all)
-- **`type: "command"`** — runs a shell command
-- **`command`** — plays a native system sound using OS built-in tools
+Claude Code has a built-in [hooks system](https://docs.anthropic.com/en/docs/claude-code/hooks) that runs commands on events. The **`Notification`** event fires whenever Claude pauses and waits for user input.
 
-No external packages. No audio files to download. Just your OS system sounds.
+| Key | What it does |
+|:----|:-------------|
+| `matcher: ""` | Empty = matches **all** notifications |
+| `type: "command"` | Runs a shell command |
+| `command` | Plays a native OS system sound |
 
-## If You Already Have Settings
+**Zero dependencies.** No npm packages. No audio files. Just your OS built-in sounds.
 
-If your `settings.json` already has other config, merge the `hooks` key into your existing object:
+---
+
+## Already Have Settings?
+
+Merge the `hooks` key into your existing `settings.json`:
 
 ```json
 {
@@ -130,18 +193,12 @@ If your `settings.json` already has other config, merge the `hooks` key into you
 }
 ```
 
-## Windows Sound Options
+---
 
-You can swap `Exclamation` for other Windows system sounds:
+## Contributing
 
-| Sound | Code |
-|-------|------|
-| Exclamation | `[System.Media.SystemSounds]::Exclamation.Play()` |
-| Asterisk | `[System.Media.SystemSounds]::Asterisk.Play()` |
-| Beep | `[System.Media.SystemSounds]::Beep.Play()` |
-| Hand | `[System.Media.SystemSounds]::Hand.Play()` |
-| Question | `[System.Media.SystemSounds]::Question.Play()` |
+Found a better sound command for your OS? Open a PR!
 
 ## License
 
-MIT
+[MIT](LICENSE) - Mohammed Saif Ali
